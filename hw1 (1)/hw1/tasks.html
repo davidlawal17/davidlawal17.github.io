@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Homework 1: Tasks for dl324</title>
+</head>
+
+<body>
+<h1>Homework 1: Tasks for dl324</h1>
+
+<p>Your personal task is to develop a system for libraries and their books.</p>
+
+<h2>Task 1: Configuration [4 marks]</h2>
+<p>Configure the project to support the use of JSPs as view technology. JSPs must be configured to be placed inside folder <code>src/main/webapp/WEB-INF/views/</code>.</p>
+
+<h2>Task 2: Domain Classes [13 marks]</h2>
+
+<p>Create class <code>co2103.hw1.domain.Book</code>. With the following private fields:
+<ol>
+  <li><code>String title</code></li>
+  <li><code>String author</code></li>
+  <li><code>String genre</code></li>
+  <li><code>int amount</code></li>
+</ol>
+Generate necessary getters and setters. [7 marks]
+</p>
+
+<p>Create class <code>co2103.hw1.domain.Library</code>. With the following private fields:
+<ol>
+  <li><code>int id</code></li>
+  <li><code>String president</code></li>
+  <li><code>String website</code></li>
+  <li><code>List&lt;Book&gt; books</code></li>
+</ol>
+Generate necessary getters and setters. [6 marks]
+</p>
+
+
+<h2>Task 3: Controller (simple) [5 marks]</h2>
+<p>Create controller <code>co2103.hw1.controller.MainController</code> [2 marks].
+<ol>
+  <li>Requests for URL <code>"/"</code> (POST and GET) should show the view <code>start</code> (the corresponding JSP already exists). [3 marks]</li>
+</ol>
+</p>
+
+<h2>Task 4: Controller, View, and Form [20 marks]</h2>
+
+<p>Create field <code>public static List&lt;Library&gt; libraries</code> in class <code>co2103.hw1.Hw1Application</code>. Initialize the list inside class <code>co2103.hw1.Hw1Application</code> to contain one library with two books. [4 marks]</p>
+
+<p>Create controller <code>co2103.hw1.controller.LibraryController</code> and add methods with request mappings for the following behavior:
+<ol>
+  <li>GET requests for URL <code>"/libraries"</code> should show view <code>libraries/list</code>. [2 marks]
+    <ul>
+      <li>Add the list of all libraries from <code>co2103.hw1.Hw1Application</code> to the model as attribute <code>libraries</code>. [2 marks]</li>
+      <li>Create the corresponding JSP to list the president and website of each library followed by a link to URL <code>"/books?library={id of library}"</code>, e.g., <code>"/books?library=3"</code>. [4 marks]</li>
+    </ul>
+  </li>
+  <li>Requests for URL <code>"/newLibrary"</code> should show view <code>libraries/form</code>. [3 marks] Create the corresponding JSP with a form with <code>modelAttribute="library"</code> and <code>action="/addLibrary"</code> and inputs for all fields of class <code>Library</code> except for <code>books</code>. [5 marks]</li>
+  <li>POST requests for URL <code>"/addLibrary"</code> should add a new library to the list of all libraries in <code>co2103.hw1.Hw1Application</code> and redirect to <code>/libraries</code>. [3 marks]</li>
+</ol>
+</p>
+
+<h2>Task 5: Controller, View, and Form with additional Parameter [33 marks]</h2>
+
+<p>Create controller <code>co2103.hw1.controller.BookController</code> and add methods with request mappings for the following behavior:
+<ol>
+  <li>GET requests for URL <code>"/books"</code> should show view <code>books/list</code>. [2 marks]
+    <ul>
+      <li>Based on request parameter <code>library</code> determine the corresponding library from <code>co2103.hw1.Hw1Application</code>. [2 marks]</li>
+      <li>Add the list of all books of that library to the model as attribute <code>books</code>. [2 marks]</li>
+      <li>Create the corresponding JSP for the view to list the title, author, genre, and amount of each book. [4 marks]</li>
+      <li>At the end of the list in the JSP add a link to URL <code>"/newBook?library={id of library whose books are listed}"</code>, e.g., <code>"/newBook?library=3"</code>. [4 marks]</li>
+    </ul>
+  </li>
+  <li>Requests for URL <code>"/newBook"</code> should show view <code>books/form</code>. [3 marks]
+    <ul>
+      <li>Create the corresponding JSP with a form with <code>modelAttribute="book"</code> and <code>action="/addBook"</code> and inputs for all fields of class <code>Book</code>. [6 marks]</li>
+      <li>Also add the request parameter <code>library</code> with the ID of the current library. [4 marks]</li>
+    </ul>
+  </li>
+  <li>POST requests for URL <code>"/addBook"</code> should add a new book to the list of books of the library identified by request parameter <code>library</code> and then redirect to <code>/libraries</code>. [6 marks]</li>
+</ol>
+</p>
+
+<h2>Task 6: Validation [25 marks]</h2>
+
+<p>Set up a validator for class <code>Library</code> and make it available in controller <code>LibraryController</code>. [4 marks]</p>
+<p>When adding a new library validate that
+  <ol>
+    <li>The value of field <code>id</code> is unique within the list <code>Hw1Application.libraries</code>. [3 marks]</li>
+    <li>The value of field <code>president</code> is not empty. [2 marks]</li>
+    <li>The value of field <code>website</code> is not empty. [2 marks]</li>
+  </ol>
+  In case of validation errors go back to the form and show error messages for each field in the form.
+</p>
+
+
+<p>Set up a validator for class <code>Book</code> and make it available in controller <code>BookController</code>. [4 marks]</p>
+<p>When adding a new book validate that
+  <ol>
+    <li>The value of field <code>title</code> is not empty. [2 marks]</li>
+    <li>The value of field <code>author</code> is not empty. [2 marks]</li>
+    <li>The value of field <code>genre</code> is either <code>"Sport"</code>, <code>"History"</code>, or <code>"Biography"</code>. [3 marks]</li>
+    <li>The value of field <code>amount</code> is between (including) 5 and 8. [3 marks]</li>
+  </ol>
+  In case of validation errors go back to the form and show error messages for each field in the form.
+</p>
+
+</body>
+
+</html>
